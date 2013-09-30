@@ -6,7 +6,9 @@
     "underscore": "*",
     "backbone": "*",
     "modernizr": "*",
-    "sass-bootstrap": "~3.0.0"
+    "sass-bootstrap": "~3.0.0",
+    "typeahead.js": "~0.9.3",
+    "requirejs": "~2.1.8"
   },
   "devDependencies": {}
 }

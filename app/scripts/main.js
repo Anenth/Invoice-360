@@ -26,8 +26,11 @@ require.config({
     }
 });
 
-require([
+/*require([
     'backbone','bootstrap'
 ], function (Backbone) {
     Backbone.history.start();
+});*/
+require(['routes/router'], function (Router) {
+    
 });
