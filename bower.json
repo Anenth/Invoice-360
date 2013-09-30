@@ -1,0 +1,12 @@
+{
+  "name": "invoice360",
+  "version": "0.0.1",
+  "dependencies": {
+    "jquery": "*",
+    "underscore": "*",
+    "backbone": "*",
+    "modernizr": "*",
+    "sass-bootstrap": "~3.0.0"
+  },
+  "devDependencies": {}
+}

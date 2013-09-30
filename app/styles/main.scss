@@ -1,0 +1,9 @@
+$icon-font-path: '../bower_components/bootstrap-sass/fonts/';
+@import "sass-bootstrap/lib/bootstrap";
+
+.modal{
+	overflow : auto;
+	.modal-dialog{
+		width: 65%;
+	}
+}
