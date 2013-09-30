@@ -12,11 +12,13 @@ define([
     var MainView = Backbone.View.extend({
         template: JST['app/scripts/templates/Main.ejs'],
         initialize:function(){
-			new ProductView();
-			this.on('Message', function(msg) {
-				alert(msg);
-				// $('#myElement').addClass(myparameter);
-		    });
+			var productView = new ProductView();
+			productView.on('Message', this.alertService);
+
+        },
+        alertService: function(msg){
+			alert(msg);
+			// $('#myElement').addClass(myparameter);
         }
 
     });

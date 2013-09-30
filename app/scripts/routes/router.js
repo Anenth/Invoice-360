@@ -4,8 +4,9 @@ define([
     'jquery',
     'backbone',
     'views/Main',
+    'views/Search',
     'bootstrap'
-], function ($, Backbone, MainView) {
+], function ($, Backbone, MainView, SearchView) {
     'use strict';
 
     var Router = Backbone.Router.extend({
@@ -14,11 +15,13 @@ define([
 			'reports':'report'
         },
         index: function(){
-        	var mainView = new MainView();
+        	new SearchView();
         },
         report: function(){
-        }
-
+        },
+		initialize: function(){
+			new MainView();
+		}
     });
     var router = new Router();
     Backbone.history.start();

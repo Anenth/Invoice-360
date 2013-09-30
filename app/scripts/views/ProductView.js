@@ -15,7 +15,6 @@ define([
 				'submit' : 'addProduct'
 			},
 			initialize: function(){
-				console.log('Products');
 			},
 			addProduct: function(e){
 				e.preventDefault();
