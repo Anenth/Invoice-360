@@ -18,8 +18,8 @@ define([
 			},
 			addProduct: function(e){
 				e.preventDefault();
-				var _this     = this,
-				product       = new Product(),
+				var _this    = this,
+				product      = new Product(),
 				productName  = $('#inputName'),
 				productQty   = $('#inputQty'),
 				productPrice = $('#inputPrice');

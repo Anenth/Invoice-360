@@ -7,6 +7,23 @@ $icon-font-path: '../bower_components/sass-bootstrap/fonts/';
 		width: 65%;
 	}
 }
+.table{
+	th,td:first-child,td:nth-child(3) input{
+		text-align: center;
+	}
+	strong{
+		font-weight: bold;
+		font-size: 21px;
+	}
+	.glyphicon{
+		font-size: 11px;
+		margin-bottom: 1px;
+		color: #999;
+	}
+	.glyphicon-trash:hover{
+		color:red;
+	}
+}
 .typeahead,
 .tt-query,
 .tt-hint {

@@ -8,8 +8,7 @@
     "modernizr": "*",
     "sass-bootstrap": "~3.0.0",
     "requirejs": "~2.1.8",
-    "typeahead.js": "~0.9.3",
-    "hogan": "~3.0.0"
+    "typeahead.js": "~0.9.3"
   },
   "devDependencies": {}
 }
