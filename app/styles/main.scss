@@ -11,6 +11,9 @@ $icon-font-path: '../bower_components/sass-bootstrap/fonts/';
 	th,td:first-child,td:nth-child(3) input{
 		text-align: center;
 	}
+	th.text-right{
+		text-align:right;
+	}
 	strong{
 		font-weight: bold;
 		font-size: 21px;
@@ -22,6 +25,9 @@ $icon-font-path: '../bower_components/sass-bootstrap/fonts/';
 	}
 	.glyphicon-trash:hover{
 		color:red;
+	}
+	#grandTotal{
+		border-bottom: 4px #333 double;
 	}
 }
 .typeahead,

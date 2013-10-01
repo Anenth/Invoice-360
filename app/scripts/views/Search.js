@@ -49,8 +49,9 @@ define([
 				price	: data.price,
 				itemCode: data.productCode
 			});
-			invoiceItems.add(item);
+			invoiceItems.add(item,{merge: false});
 			$('.table').append(invoiceItemsView.render().$el);
+		
 			$('#SerachProduct').val('');
 
         }
