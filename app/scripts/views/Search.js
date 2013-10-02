@@ -10,11 +10,13 @@ define([
 	'typeahead',
 	'models/InvoiceItem',
 	'collections/InoviceItems',
-	'views/InvoiceItem'
-	], function ( $, _, Backbone, JST, Product, Products, typeahead, InvoiceItem, InvoiceItems, InvoiceItemsView) {
+	'views/InvoiceItem',
+	'models/Invoice',
+	], function ( $, _, Backbone, JST, Product, Products, typeahead, InvoiceItem, InvoiceItems, InvoiceItemsView, Invoice) {
 		'use strict';
 		var invoiceItems = new InvoiceItems();
 		var invoiceItemsView = new InvoiceItemsView({collection : invoiceItems});
+		var today,dd,mm,yyyy;
 		var SearchView = Backbone.View.extend({
 			el:'.mainContainer',
 			template: JST['app/scripts/templates/Search.ejs'],
@@ -52,13 +54,20 @@ define([
 					price	: data.price,
 					itemCode: data.productCode
 				});
-				invoiceItems.add(item,{merge: false});
+				invoiceItems.add(item);
 				$('.invoiceItemsContainer').fadeIn(400);
 				$('.table').append(invoiceItemsView.render().$el);
 				$('#SerachProduct').val('');
 
 			},
-			
+			/**
+			 * [print - 
+			 * 1.get the product model from the ivoices items 
+			 * 2.update the product model (reduce the qty)
+			 * 3.create a new model inovice and save it to server B-)
+			 * ]
+			 * @return {[type]}
+			 */
 			print: function(){
 				invoiceItems.each(function(model){
 					var product = new Product({ id : model.get('itemCode') });
@@ -78,11 +87,31 @@ define([
 						}
 					});
 				});
-			// window.print();
-		},
-		removeItems: function(){
-			location.reload(true);
-		}
+				var invoice = new Invoice();
+				invoice.save({
+					amount: $('#grandTotal').text(),
+					qty: $('#qtyTotal').text(),
+					items: invoiceItems,
+				},{
+					success: function(model){
+						$('#invoiceNo').text(model.get('invoiceNumber'));
+					},
+					error:function(){
+						console.log('Some problem in saving Product to DB');
+					}
+				});
+				today = new Date();
+				dd = today.getDate();
+				mm = today.getMonth()+1;
+				yyyy = today.getFullYear();
+				if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = mm+'/'+dd+'/'+yyyy;
+				$('#date').text(today);
+				window.print();
+				// location.reload(true);
+			},
+			removeItems: function(){
+				location.reload(true);
+			}
+		});
+		return SearchView;
 	});
-return SearchView;
-});

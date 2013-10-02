@@ -58,7 +58,9 @@ ProductSchema.plugin(autoinc.plugin, {
 });
 var InvoiceSchema = new Schema({
 	amount: Number,
-	date: Date
+	date: Date,
+	items: Schema.Types.Mixed,
+	qty: Number
 });
 InvoiceSchema.plugin(autoinc.plugin, {
 	model:'Invoice',
@@ -127,7 +129,17 @@ function addNewProduct(req, res, next){
 	});
 }
 function getProducts(req, res, next){
-	Product.find(function (err, data) {
+	Product.find({qty: { $gte:1 }},function (err, data) {
+		if (err){
+			res.send({'message':'Some error in fetching products from mongodb'});
+		}else{
+			res.send(data);
+		}
+		return next();
+	});
+}
+function getDieProducts(req, res, next){
+	Product.find({qty: { $lte: 3 }},function (err, data) {
 		if (err){
 			res.send({'message':'Some error in fetching products from mongodb'});
 		}else{
@@ -139,7 +151,7 @@ function getProducts(req, res, next){
 function addNewInvoice(req, res, next){
 	var invoice = new Invoice();
 	invoice.amount = req.params.amount;
-	invoice.date = req.params.date;
+	invoice.date = new Date();
 	invoice.save(function(err, data){
 		if(err){
 			res.send({'message':'Some error while saving invoice to mongoDB'});
@@ -177,7 +189,7 @@ server.put('/product/:id',	updateProduct );
 server.del('/product/:id',	deleteProduct );
 server.post('/product',		addNewProduct );
 server.get('/product',		getProducts );
-
+server.get('/dieStock',		getDieProducts );
 
 server.post('/invoice', addNewInvoice);
 server.get('/invoice',  getInvoices);

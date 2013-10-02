@@ -11,7 +11,7 @@ define([
 			amount:'0',
 			date:'null'
         },
-        url: 'http://127.0.0.1:8889/invoice'
+        urlRoot: 'http://127.0.0.1:8889/invoice'
     });
 
     return InvoiceModel;
