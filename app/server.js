@@ -6,7 +6,7 @@ fs = require('fs'),
 httpPort = process.argv[2] || 8888;
 http.createServer(function(request, response) {
 	var uri = url.parse(request.url).pathname, 
-		filename = path.join(process.cwd(), uri);
+	filename = path.join(process.cwd(), uri);
 	path.exists(filename, function(exists) {
 		if(!exists) {
 			response.writeHead(404, {'Content-Type': 'text/plain'});
@@ -71,6 +71,46 @@ mongoose.model('Invoice', InvoiceSchema);
 var Product = mongoose.model('Product'),
 Invoice = mongoose.model('Invoice');
 
+function getProduct(req, res, next){
+	Product.findOne( { 'productCode' : req.params.id },
+		function(err, product){
+			if(err){
+				res.send({'message':'Some error in fetching product from mongodb'});
+			}else{
+				if(product){
+					res.send(product);
+				}else{
+					res.send({'message':'Not found'});
+				}
+			}
+			return next();
+		});
+}
+function updateProduct(req, res, next){
+	Product.update( {'productCode' : req.params.id },
+		{	name : req.params.name,
+			qty : req.params.qty,
+			price : req.params.price },
+			function(err){
+				if(err){
+					res.send({'message':'Some error while updating product in MongoDB'});
+				}else{
+					res.send({'message':'producted updated'});
+				}
+			});
+	return next();
+}
+function deleteProduct(req, res, next){
+	Product.findOneAndRemove({'productCode' : req.params.id },
+		function(err){
+			if(err){
+				res.send({'message':'Some error while deleting product to mongoDB'});
+			}else{
+				res.send({'message':'product deleted'});
+			}
+		});
+	return next();
+}
 
 function addNewProduct(req, res, next){
 	var product = new Product();
@@ -78,19 +118,22 @@ function addNewProduct(req, res, next){
 	product.qty = req.params.qty;
 	product.price = req.params.price;
 	product.save(function(err, data){
-		res.send(data);
+		if(err){
+			res.send({'message':'Some error while saving product to mongoDB'});
+		}else{
+			res.send(data);
+		}
 		return next();
 	});
 }
 function getProducts(req, res, next){
 	Product.find(function (err, data) {
 		if (err){
-			console.log('Some error');
-			return next();
+			res.send({'message':'Some error in fetching products from mongodb'});
 		}else{
 			res.send(data);
-			return next();
-		} 
+		}
+		return next();
 	});
 }
 function addNewInvoice(req, res, next){
@@ -98,19 +141,23 @@ function addNewInvoice(req, res, next){
 	invoice.amount = req.params.amount;
 	invoice.date = req.params.date;
 	invoice.save(function(err, data){
-		res.send(data);
+		if(err){
+			res.send({'message':'Some error while saving invoice to mongoDB'});
+		}else{
+			res.send(data);
+		}
 		return next();
 	});
 }
 function getInvoices(req, res, next){
 	Invoice.find(function (err, data) {
 		if (err){
-			console.log('Some error');
-			return next();
+			res.send({'message':'Some error in fetching invoices from mongodb'});
 		}else{
 			res.send(data);
-			return next();
-		} 
+		}
+		return next();
+
 	});
 }
 
@@ -125,8 +172,12 @@ server.use(restify.fullResponse()); //CROS
 server.use(restify.bodyParser()); //JSON RESPONSE
 
 // Routes
-server.post('/product', addNewProduct);
-server.get('/product',  getProducts);
+server.get('/product/:id',	getProduct );
+server.put('/product/:id',	updateProduct );
+server.del('/product/:id',	deleteProduct );
+server.post('/product',		addNewProduct );
+server.get('/product',		getProducts );
+
 
 server.post('/invoice', addNewInvoice);
 server.get('/invoice',  getInvoices);

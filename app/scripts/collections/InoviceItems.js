@@ -13,6 +13,11 @@ define([
                 this.grandTotal = 0;
                 this.qtyTotal =0;
                 this.on('change add',this.calculate);
+                this.on('destroy',this.subtract);
+            },
+            renderTotal:function(){
+                $('#qtyTotal').text(this.qtyTotal);
+                $('#grandTotal').text(this.grandTotal);
             },
             calculate: function(model,event){
                 if(!(event.length > 0)){
@@ -21,11 +26,14 @@ define([
                 }
                 this.grandTotal += parseInt(model.get('total'),10);
                 this.qtyTotal   += parseInt(model.get('qty'),10);
-
-                $('#qtyTotal').text(this.qtyTotal);
-                $('#grandTotal').text(this.grandTotal);
+                this.renderTotal();
             },
-    });
+            subtract:function(model){
+                this.grandTotal -= parseInt(model.get('total'),10);
+                this.qtyTotal   -= parseInt(model.get('qty'),10);
+                this.renderTotal();
+            },
+        });
 
-        return InoviceitemsCollection;
-    });
+return InoviceitemsCollection;
+});

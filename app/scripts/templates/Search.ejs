@@ -1,32 +1,57 @@
-  <form role = "search">
-  	<div class = "form-group">
-  		<input id="SerachProduct" type="text" class="form-control" placeholder="Search by Product Name">
-  	</div>
+  <div class="row visible-print">
+    <div class="col-lg-3">
+      Invoice No: <span id="invoiceNo">0</span>
+        <div class="pull-right">Date: <span id="date">0</span></div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-lg-6 text-center">
+      <address>
+        <strong>Bang The Table</strong><br>
+        795 Folsom Ave, Suite 600<br>
+        San Francisco, CA 94107<br>
+        Phone: (123) 456-7890
+      </address>
+    </div>
+    <div class="col-lg-3">
+    
+    </div>
+  </div>
+  <div class="row hidden-print">
+    <form role = "search">
+     <div class = "form-group">
+      <input id="SerachProduct" type="text" class="form-control" placeholder="Search by Product Name">
+    </div>
   </form>
-  <div class="invoiceItemsContainer table-responsive">
+</div>
+<div class="invoiceItemsContainer">
   <div class="row">
-  	<table class="table">
+  	<table class="table table-responsive">
   		<thead>
   			<tr>
   				<th>#</th>
   				<th>Item</th>
-  				<th>Qty</th>
-  				<th>Total</th>
-  			</tr>
-  		</thead>
-  		<tbody>
+          <th>Price</th>
+          <th>Qty</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
 
-  		</tbody>
-  		<tfoot>
-  			<tr>
-  				<th colspan="2" class="text-right">Grand Total:</th>
-  				<th id="qtyTotal"> 0 </th>
-  				<th class="text-right">
-           <i class="glyphicon glyphicon-usd"></i>
-            <strong id="grandTotal" > 0 </strong>
-          </th>
-  			</tr>
-  		</tfoot>
-  	</table>
-  </div>
-  </div>
+      </tbody>
+      <tfoot>
+       <tr>
+        <th colspan="3" class="text-right">Grand Total:</th>
+        <th id="qtyTotal"> 0 </th>
+        <th class="text-right">
+         <i class="glyphicon glyphicon-usd"></i>
+         <strong id="grandTotal" > 0 </strong>
+       </th>
+     </tr>
+   </tfoot>
+ </table>
+</div>
+<div class="row hidden-print">
+  <button class="btn btn-warning pull-left btn-cancel">Cancel</button>
+  <button class="btn btn-success pull-right btn-print"><i class="glyphicon glyphicon-print"></i> Print</button>
+</div>
+</div>

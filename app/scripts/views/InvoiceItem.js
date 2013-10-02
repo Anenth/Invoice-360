@@ -12,9 +12,6 @@ define([
 		var InvoiceitemView = Backbone.View.extend({
 			collection : Items,
 			tagName:'tbody',
-			events:{
-				'click .print':'print'
-			},
 			initialize:function(){
 				_.bindAll(this, 'render', 'renderOne');
 				// this.collection.on('change', this.render, this);
@@ -30,10 +27,6 @@ define([
 				this.$el.append(row.render().$el);
 				return this;
 			},
-			print: function(e,model){
-				console.log(e.target.value);
-				console.log(model);
-			}
 		});
 		return InvoiceitemView;
 

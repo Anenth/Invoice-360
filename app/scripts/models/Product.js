@@ -12,8 +12,13 @@ define([
 			qty:0,
 			price:0
         },
-        url: 'http://127.0.0.1:8889/product'
+        urlRoot: 'http://127.0.0.1:8889/product'
     });
 
     return ProductModel;
 });
+/*url : function() {
+          var base ='http://127.0.0.1:8889/product'
+          if (this.isNew()) return base;
+          return base + (base.charAt(base.length - 1) == '/' ? '' : '/') + this.productCode;
+        },*/

@@ -19,7 +19,7 @@ define([
 			},
 			initialize: function(){
 				this.model.set({'index':this.options.index});
-				this.model.on('change',this.render,this);
+				this.model.on('change destroy',this.render,this);
 			},
 			render:function(){
 				this.$el.html(this.template(this.model.toJSON()));
@@ -31,7 +31,7 @@ define([
 			delete:function(){
 				if(confirm('Really delete item ' + this.model.get('name') + '?')){
 					this.model.destroy();
-					this.$el.hide();
+					this.$el.fadeOut(400);
 				}
 				return false
 			}

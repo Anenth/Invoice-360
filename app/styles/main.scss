@@ -8,7 +8,7 @@ $icon-font-path: '../bower_components/sass-bootstrap/fonts/';
 	}
 }
 .table{
-	th,td:first-child,td:nth-child(3) input{
+	th,td:first-child,td:nth-child(4) input{
 		text-align: center;
 	}
 	th.text-right{
@@ -104,4 +104,33 @@ $icon-font-path: '../bower_components/sass-bootstrap/fonts/';
  span{
  	font-weight: normal;
  }
+}
+@media print{
+	.glyphicon-trash{
+		display: none
+	}
+	table td{
+		border: 2px solid #eee;
+	}
+	td:nth-child(4){
+		width: 80px;
+	}
+	td:nth-child(5){
+		width: 150px;
+	}
+	.visible-print .col-lg-3{
+		background:transparent;
+	}
+	input.input-qty{
+		border: none;
+		outline: none;
+		box-shadow: none;
+		text-align: center;
+	}
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+	    /* display: none; <- Crashes Chrome on hover */
+	    -webkit-appearance: none;
+	    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+	}
 }
