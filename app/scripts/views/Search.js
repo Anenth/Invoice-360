@@ -28,7 +28,10 @@ define([
 				'click .btn-cancel'		 :'removeItems'
 			},
 			initialize: function(){
-				this.render();
+			},
+			render: function(){
+				var _this = this;
+				this.$el.html(this.template);
 				$('.invoiceItemsContainer').hide();
 				this.collection.fetch({
 					success: function(data){
@@ -38,15 +41,13 @@ define([
 							local   : data.toJSON(),
 							template: JST['app/scripts/templates/typeahead.ejs']
 						});
+						$('#SerachProduct').focus();
 					},
 					error: function(){
-						console.log('Some error where fetching all the products to populate the typeahead');
+						console.log('Some error where fetching all the products to populate the typeahead. Retrying ..');
+						_this.render();
 					}
 				});
-
-			},
-			render: function(){
-				this.$el.append(this.template);
 			},
 			addToTable : function($e, data){
 				var item = new InvoiceItem({
@@ -58,6 +59,7 @@ define([
 				$('.invoiceItemsContainer').fadeIn(400);
 				$('.table').append(invoiceItemsView.render().$el);
 				$('#SerachProduct').val('');
+				$('.tt-hint').val('');
 
 			},
 			/**
@@ -66,7 +68,6 @@ define([
 			 * 2.update the product model (reduce the qty)
 			 * 3.create a new model inovice and save it to server B-)
 			 * ]
-			 * @return {[type]}
 			 */
 			print: function(){
 				invoiceItems.each(function(model){
@@ -78,7 +79,6 @@ define([
 								qty: (product.get('qty')-model.get('qty'))
 							},{
 								success:function(){
-									console.log('saved');
 								},
 								error:function(){
 									console.log('Some problem in updating Product to DB');
@@ -104,13 +104,13 @@ define([
 				dd = today.getDate();
 				mm = today.getMonth()+1;
 				yyyy = today.getFullYear();
-				if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = mm+'/'+dd+'/'+yyyy;
+				if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = dd+'/'+mm+'/'+yyyy;
 				$('#date').text(today);
 				window.print();
-				// location.reload(true);
+				// this.render();
 			},
 			removeItems: function(){
-				location.reload(true);
+				this.render();
 			}
 		});
 		return SearchView;

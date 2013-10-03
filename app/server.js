@@ -5,7 +5,7 @@ path = require('path'),
 fs = require('fs'),
 httpPort = process.argv[2] || 8888;
 http.createServer(function(request, response) {
-	var uri = url.parse(request.url).pathname, 
+	var uri = url.parse(request.url).pathname,
 	filename = path.join(process.cwd(), uri);
 	path.exists(filename, function(exists) {
 		if(!exists) {
@@ -35,7 +35,7 @@ console.log('  File   server running at => Port : ' + httpPort );
 
 // ### MONGO SERVER 
 var mongoose = require('mongoose/');
-var config 	 = require('./config');
+var config   = require('./config');
 mongoose.connect(config.creds.uri);
 var autoinc = require('mongoose-pureautoinc');
 
@@ -151,6 +151,8 @@ function getDieProducts(req, res, next){
 function addNewInvoice(req, res, next){
 	var invoice = new Invoice();
 	invoice.amount = req.params.amount;
+	invoice.items = req.params.items;
+	invoice.qty = req.params.qty;
 	invoice.date = new Date();
 	invoice.save(function(err, data){
 		if(err){
@@ -172,7 +174,51 @@ function getInvoices(req, res, next){
 
 	});
 }
-
+function getDate(date){
+	var dd = date.getDate(),
+	week   = 0 | (dd - 1)/7,
+	mm     = date.getMonth()+1,
+	yyyy   = date.getFullYear();
+	if(dd < 10 ){
+		dd='0'+dd;
+	}
+	if(mm < 10 ){
+		mm='0'+mm;
+	}
+	return {
+		'day'	: dd,
+		'week'	: week,
+		'month'	: mm,
+		'year'	: yyyy
+	};
+}
+function getReport(req, res, next){
+	Invoice.find(null, 'amount date', function(err, data){
+		if (err){
+			res.send({'message':'Some error in fetching invoices from mongodb'});
+		}else{
+			var today = getDate(new Date()),
+			salesToday = 0, salesWeek =0, salesMonth = 0, salesYear = 0, invoiceDate = null;
+			for(var i in data){
+				invoiceDate = getDate(data[i].date);
+				if(invoiceDate.year === today.year){
+					salesYear += data[i].amount;
+					if(invoiceDate.month === today.month){
+						salesMonth += data[i].amount;
+						if(invoiceDate.week === today.week){
+							salesWeek += data[i].amount;
+							if(invoiceDate.day === today.day){
+								salesToday += data[i].amount;
+							}
+						}
+					}
+				}
+			}
+			res.send({'salesToday': salesToday, 'salesThisWeek': salesWeek, 'salesThisMonth' : salesMonth , 'salesThisYear' : salesYear });
+		}
+		return next();
+	});
+}
 // ### RESTIFY SERVER
 var restify = require('restify'),
 server = restify.createServer({
@@ -194,6 +240,7 @@ server.get('/dieStock',		getDieProducts );
 server.post('/invoice', addNewInvoice);
 server.get('/invoice',  getInvoices);
 
+server.get('/report',  getReport);
 
 server.listen(restPort, function() {
 	console.log(' Restigy server running at => Port : ' + restPort );

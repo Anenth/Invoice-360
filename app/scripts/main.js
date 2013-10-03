@@ -16,6 +16,10 @@ require.config({
         bootstrap: {
             deps: ['jquery'],
             exports: 'jquery'
+        },
+        typeahead:{
+            deps:['jquery'],
+            exports: 'jQuery.fn.typeahead'
         }
     },
     paths: {

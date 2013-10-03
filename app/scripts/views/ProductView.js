@@ -33,6 +33,7 @@ define([
 						productName.val('');
 						productQty.val('');
 						productPrice.val('');
+						$('.tt-hint').val('');
 						
 					},
 					error:function(){

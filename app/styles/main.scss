@@ -1,6 +1,52 @@
 $icon-font-path: '../bower_components/sass-bootstrap/fonts/';
 @import "sass-bootstrap/lib/bootstrap";
 
+$Orange 	: #f39c12;
+$Pumpkin 	: #d35400;
+$Green   	: #2ECC71;
+$DullGreen  : #27ae60;
+.navbar > .container .navbar-brand{
+	color:$Orange;
+	letter-spacing: -1px;
+	-webkit-transition: .5s color;
+	-moz-transition: .5s color;
+	-ms-transition: .5s color;
+	-o-transition: .5s color;
+	transition: .5s color;
+	&:hover{
+		color:$Pumpkin;
+	}
+}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus{
+	color: $Orange;
+	background: #fff;
+	border-top: 2px $Orange solid;
+	box-shadow: 0 0 1px $Orange;
+}
+.navbar-default{
+	border-top:none;
+	border-bottom:{
+		color:$Orange;
+		width: 2px;
+
+	}
+	.active .glyphicon{
+		color:$Orange;
+	}
+	.glyphicon{
+		color:#999;
+	}
+
+	.dropdown-menu .glyphicon{
+		color: #777;
+	}
+	.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus{
+		background: $Orange;
+	}
+	.dropdown-menu > li > a:hover .glyphicon, .dropdown-menu > li > a:focus .glyphicon{
+		color: #fff;
+	}
+}
 .modal{
 	overflow : auto;
 	.modal-dialog{
@@ -33,11 +79,11 @@ $icon-font-path: '../bower_components/sass-bootstrap/fonts/';
 .typeahead,
 .tt-query,
 .tt-hint {
+	@extend input[type=text];
   width: 500px;
   height: 40px;
   padding: 8px 12px;
-  font-size: 17px;
-  line-height: 30px;
+  line-height: 30px; 
 }
 
 .typeahead {
@@ -105,6 +151,29 @@ $icon-font-path: '../bower_components/sass-bootstrap/fonts/';
  	font-weight: normal;
  }
 }
+
+.reportPriceHolder{
+	position: relative;
+	text-align: center;
+	background: $Green;
+	border: 1px #DDD solid;
+	color: #FFF;
+	border-radius: 4px;
+	.glyphicon{
+		color : $DullGreen;
+		position: absolute;
+		top: 9px;
+		left: 0;
+		font-size: 40px;
+	}
+	h4{
+		font-size: 25px;
+	}
+	small{
+		color: #ddd;
+	}
+}
+
 @media print{
 	.glyphicon-trash{
 		display: none
