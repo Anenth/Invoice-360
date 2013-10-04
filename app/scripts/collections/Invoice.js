@@ -1,16 +1,19 @@
 /*global define*/
 
 define([
-    'underscore',
-    'backbone',
-    'models/Invoice'
-], function (_, Backbone, InvoiceModel) {
-    'use strict';
+	'underscore',
+	'backbone',
+	'models/Invoice',
+	'config'
+	], function (_, Backbone, InvoiceModel, config) {
+		'use strict';
 
-    var InvoiceCollection = Backbone.Collection.extend({
-        model: InvoiceModel,
-        url: 'http://127.0.0.1:8889/invoice'
-    });
+		var InvoiceCollection = Backbone.Collection.extend({
+			model: InvoiceModel,
+			url: function(){
+				return config.url + '/invoice';
+			},
+		});
 
-    return InvoiceCollection;
-});
+		return InvoiceCollection;
+	});

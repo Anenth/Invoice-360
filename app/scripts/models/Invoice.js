@@ -2,8 +2,9 @@
 
 define([
     'underscore',
-    'backbone'
-], function (_, Backbone) {
+    'backbone',
+    'config'
+], function (_, Backbone, config) {
     'use strict';
 
     var InvoiceModel = Backbone.Model.extend({
@@ -11,7 +12,10 @@ define([
 			amount:'0',
 			date:'null'
         },
-        urlRoot: 'http://127.0.0.1:8889/invoice'
+        urlRoot: function(){
+            return config.url + '/invoice';
+        },
+
     });
 
     return InvoiceModel;

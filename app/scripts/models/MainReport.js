@@ -2,8 +2,9 @@
 
 define([
 	'underscore',
-	'backbone'
-	], function (_, Backbone) {
+	'backbone',
+	'config'
+	], function (_, Backbone, config) {
 		'use strict';
 
 		var MainreportModel = Backbone.Model.extend({
@@ -13,7 +14,9 @@ define([
 				salesThisMonth: 0 ,
 				salesThisYear: 0
 			},
-			url: 'http://127.0.0.1:8889/report'
+			url : function(){
+				return config.url + '/report';
+			},
 		});
 
 		return MainreportModel;
