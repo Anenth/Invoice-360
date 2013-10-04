@@ -12,7 +12,7 @@ define([
 			qty:0,
 			price:0
         },
-        urlRoot: 'http://127.0.0.1:8889/product'
+        urlRoot: 'http://127.0.0.1:8889/product',
     });
 
     return ProductModel;

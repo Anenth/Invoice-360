@@ -17,11 +17,24 @@ $DullGreen  : #27ae60;
 		color:$Pumpkin;
 	}
 }
-.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus{
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus,.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus{
 	color: $Orange;
 	background: #fff;
-	border-top: 2px $Orange solid;
 	box-shadow: 0 0 1px $Orange;
+	
+	&:after{
+		border-top:3px $Orange solid;	
+		border-left: rgba(0, 0, 0, 0) 4px solid;
+		border-right: rgba(0, 0, 0, 0) 4px solid;
+		position:absolute;
+		top:0;
+		left: -5px;
+		right: -5px;
+		content: '';
+	}
+	.glyphicon{
+		color:$Orange;
+	}
 }
 .navbar-default{
 	border-top:none;
@@ -30,9 +43,7 @@ $DullGreen  : #27ae60;
 		width: 2px;
 
 	}
-	.active .glyphicon{
-		color:$Orange;
-	}
+	
 	.glyphicon{
 		color:#999;
 	}
@@ -79,7 +90,7 @@ $DullGreen  : #27ae60;
 .typeahead,
 .tt-query,
 .tt-hint {
-	@extend input[type=text];
+	@extend input;
   width: 500px;
   height: 40px;
   padding: 8px 12px;

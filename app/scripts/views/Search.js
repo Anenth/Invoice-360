@@ -17,6 +17,17 @@ define([
 		var invoiceItems = new InvoiceItems();
 		var invoiceItemsView = new InvoiceItemsView({collection : invoiceItems});
 		var today,dd,mm,yyyy;
+		var initTypeahead = function(data){
+			console.log("typeahead:");
+			window.thData = data;
+			console.log(window.thData);
+			$('#SerachProduct').typeahead({
+				name    : 'products',
+				valueKey: 'name',
+				local   : data,
+				template: JST['app/scripts/templates/typeahead.ejs']
+			}).focus();
+		}
 		var SearchView = Backbone.View.extend({
 			el:'.mainContainer',
 			template: JST['app/scripts/templates/Search.ejs'],
@@ -33,21 +44,19 @@ define([
 				var _this = this;
 				this.$el.html(this.template);
 				$('.invoiceItemsContainer').hide();
-				this.collection.fetch({
-					success: function(data){
-						$('#SerachProduct').typeahead({
-							name    : 'products',
-							valueKey: 'name',
-							local   : data.toJSON(),
-							template: JST['app/scripts/templates/typeahead.ejs']
-						});
-						$('#SerachProduct').focus();
-					},
-					error: function(){
-						console.log('Some error where fetching all the products to populate the typeahead. Retrying ..');
-						_this.render();
-					}
-				});
+				if(navigator.onLine){
+					this.collection.fetch({
+						success: function(data){
+							initTypeahead(data.toJSON());
+						},
+						error: function(){
+							console.log('Some error where fetching all the products to populate the typeahead. Retrying ..');
+							_this.render();
+						}
+					});
+				}else{
+					initTypeahead(this.collection.fetch());
+				}
 			},
 			addToTable : function($e, data){
 				var item = new InvoiceItem({
@@ -67,8 +76,7 @@ define([
 			 * 1.get the product model from the ivoices items 
 			 * 2.update the product model (reduce the qty)
 			 * 3.create a new model inovice and save it to server B-)
-			 * ]
-			 */
+			 * ]**/
 			print: function(){
 				invoiceItems.each(function(model){
 					var product = new Product({ id : model.get('itemCode') });
@@ -113,5 +121,5 @@ define([
 				this.render();
 			}
 		});
-		return SearchView;
-	});
+return SearchView;
+});
