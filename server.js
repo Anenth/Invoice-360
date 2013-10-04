@@ -3,7 +3,7 @@ var http = require('http'),
 url = require('url'),
 path = require('path'),
 fs = require('fs'),
-httpPort = process.argv.PORT || 8888;
+httpPort = process.env.PORT || 8888;
 http.createServer(function(request, response) {
 	var uri = url.parse(request.url).pathname,
 	filename = path.join(process.cwd(), uri);
