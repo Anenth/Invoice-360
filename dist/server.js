@@ -1,5 +1,5 @@
 'use strict';
-var http = require('http'),
+/*var http = require('http'),
 url = require('url'),
 path = require('path'),
 fs = require('fs'),
@@ -31,7 +31,7 @@ http.createServer(function(request, response) {
 	});
 }).listen(parseInt(httpPort, 10));
 console.log('  File   server running at => Port : ' + httpPort );
-
+*/
 
 // ### MONGO SERVER 
 var mongoose = require('mongoose/');
@@ -224,7 +224,7 @@ var restify = require('restify'),
 server = restify.createServer({
 	name:'Invoice 360'
 }),
-restPort = 8889;
+restPort =  process.env.PORT || 8889;
 
 server.use(restify.fullResponse()); //CROS
 server.use(restify.bodyParser()); //JSON RESPONSE
