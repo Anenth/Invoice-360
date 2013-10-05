@@ -7,20 +7,17 @@ define([
 	'templates',
 	'models/Product',
 	'collections/Products',
-	'typeahead',
 	'models/InvoiceItem',
 	'collections/InoviceItems',
 	'views/InvoiceItem',
 	'models/Invoice',
-	], function ( $, _, Backbone, JST, Product, Products, typeahead, InvoiceItem, InvoiceItems, InvoiceItemsView, Invoice) {
+	'typeahead'
+	], function ( $, _, Backbone, JST, Product, Products, InvoiceItem, InvoiceItems, InvoiceItemsView, Invoice) {
 		'use strict';
 		var invoiceItems = new InvoiceItems();
 		var invoiceItemsView = new InvoiceItemsView({collection : invoiceItems});
 		var today,dd,mm,yyyy;
 		var initTypeahead = function(data){
-			console.log("typeahead:");
-			window.thData = data;
-			console.log(window.thData);
 			$('#SerachProduct').typeahead({
 				name    : 'products',
 				valueKey: 'name',
@@ -76,45 +73,45 @@ define([
 			 * 1.get the product model from the ivoices items 
 			 * 2.update the product model (reduce the qty)
 			 * 3.create a new model inovice and save it to server B-)
-			 * ]**/
-			print: function(){
-				invoiceItems.each(function(model){
-					var product = new Product({ id : model.get('itemCode') });
-					product.fetch({
-						success : function(){
-							product.save(
-							{
-								qty: (product.get('qty')-model.get('qty'))
-							},{
-								success:function(){
-								},
-								error:function(){
-									console.log('Some problem in updating Product to DB');
-								}
-							});
-						}
-					});
-				});
-				var invoice = new Invoice();
-				invoice.save({
-					amount: $('#grandTotal').text(),
-					qty: $('#qtyTotal').text(),
-					items: invoiceItems,
+* ]**/
+print: function(){
+	invoiceItems.each(function(model){
+		var product = new Product({ id : model.get('itemCode') });
+		product.fetch({
+			success : function(){
+				product.save(
+				{
+					qty: (product.get('qty')-model.get('qty'))
 				},{
-					success: function(model){
-						$('#invoiceNo').text(model.get('invoiceNumber'));
+					success:function(){
 					},
 					error:function(){
-						console.log('Some problem in saving Product to DB');
+						console.log('Some problem in updating Product to DB');
 					}
 				});
-				today = new Date();
-				dd = today.getDate();
-				mm = today.getMonth()+1;
-				yyyy = today.getFullYear();
-				if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = dd+'/'+mm+'/'+yyyy;
-				$('#date').text(today);
-				window.print();
+			}
+		});
+	});
+	var invoice = new Invoice();
+	invoice.save({
+		amount: $('#grandTotal').text(),
+		qty: $('#qtyTotal').text(),
+		items: invoiceItems,
+	},{
+		success: function(model){
+			$('#invoiceNo').text(model.get('invoiceNumber'));
+		},
+		error:function(){
+			console.log('Some problem in saving Product to DB');
+		}
+	});
+	today = new Date();
+	dd = today.getDate();
+	mm = today.getMonth()+1;
+	yyyy = today.getFullYear();
+	if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = dd+'/'+mm+'/'+yyyy;
+	$('#date').text(today);
+	window.print();
 				// this.render();
 			},
 			removeItems: function(){
