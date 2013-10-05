@@ -16,6 +16,13 @@ define([
         urlRoot: function(){
             return config.url + '/product';
         },
+        // save:function(options){
+        //     if(navigator.onLine){
+        //         return Backbone.Model.prototype.save.apply(this, arguments) ;
+        //     }else{
+        //         return (JSON.parse(localStorage.getItem('products')));
+        //     }
+        // }
     });
 
     return ProductModel;

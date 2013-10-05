@@ -58,6 +58,17 @@ $DullGreen  : #27ae60;
 		color: #fff;
 	}
 }
+input[disabled]#SerachProduct{
+	color:$Orange;
+	font-style: italic;
+	border-color:$Orange;
+	text-transform: uppercase;
+	-webkit-transition: .5s all;
+	-moz-transition: .5s all;
+	-ms-transition: .5s all;
+	-o-transition: .5s all;
+	transition: .5s all;
+}
 .modal{
 	overflow : auto;
 	.modal-dialog{
@@ -65,7 +76,7 @@ $DullGreen  : #27ae60;
 	}
 }
 .table{
-	th,td:first-child,td:nth-child(4) input{
+	th,td:first-child,.invoiceItemsContainer td:nth-child(4) input{
 		text-align: center;
 	}
 	th.text-right{
@@ -87,11 +98,15 @@ $DullGreen  : #27ae60;
 		border-bottom: 4px #333 double;
 	}
 }
+.twitter-typeahead{
+	width: 100%;
+}
+#SerachProduct,
 .typeahead,
 .tt-query,
 .tt-hint {
 	@extend input;
-  width: 500px;
+  width: 100%;
   height: 40px;
   padding: 8px 12px;
   line-height: 30px; 

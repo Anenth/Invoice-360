@@ -6,27 +6,35 @@ define([
     'views/Main',
     'views/Search',
     'views/Report',
+    'views/DieingStock',
     'bootstrap'
-], function ($, Backbone, MainView, SearchView, ReportView) {
+], function ($, Backbone, MainView, SearchView, ReportView, DieingStock) {
     'use strict';
     var navClass = function(id){
         $('.active').removeClass('active');
         $('#'+id).addClass('active');
-    }
+    };
+    var searchView = new SearchView(),
+    reportView     = new ReportView(),
+    dieingStock    = new DieingStock();
+
     var Router = Backbone.Router.extend({
         routes: {
-			'': 'index',
-			'reports':'report'
+			''           : 'index',
+			'reports'    : 'report',
+            'dieingStock': 'dieingStock'
         },
         index: function(){
-            navClass("nav-invoice");
-        	var searchView = new SearchView();
+            navClass('nav-invoice');
             searchView.render();
         },
         report: function(){
-            navClass("nav-report");
-            var reportView = new ReportView();
+            navClass('nav-report');
             reportView.render();
+        },
+        dieingStock:function(){
+            navClass('nav-products');
+            dieingStock.render();
         },
 		initialize: function(){
 			new MainView();

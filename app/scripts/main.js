@@ -14,10 +14,12 @@ require.config({
             exports: 'Backbone'
         },
         bootstrap: {
-            deps: ['jquery']
+            deps: ['jquery'],
+            exports: 'jquery'
         },
         typeahead:{
             deps:['jquery'],
+            exports: 'jQuery.fn.typeahead'
         }
     },
     paths: {

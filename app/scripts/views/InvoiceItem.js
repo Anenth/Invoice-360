@@ -14,13 +14,11 @@ define([
 			tagName:'tbody',
 			initialize:function(){
 				_.bindAll(this, 'render', 'renderOne');
-				// this.collection.on('change', this.render, this);
 			},
 			render:function(){
 				this.$el.html('');
 				this.collection.each(this.renderOne);
 				return this;
-			// $('.invoiceItemsContainer').html(this.template({ items: this.collection.toJSON() }));
 			},
 			renderOne:function(model,index){
 				var row = new RowView({model:model, index:index });

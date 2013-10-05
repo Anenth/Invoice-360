@@ -19,7 +19,7 @@ define([
 				var _this = this;
 				this.model.fetch({
 					success:function(data){
-						_this.$el.html(_this.template(data.toJSON()));
+						_this.$el.append(_this.template(data.toJSON()));
 					},
 					error:function(){
 						console.log('Some error where fetching the reports!');
