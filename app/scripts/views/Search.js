@@ -27,6 +27,7 @@ define([
 				local   : data,
 				template: JST['app/scripts/templates/typeahead.ejs']
 			}).focus();
+			$('.loaderPic').hide();
 		};
 		var disableSeachBox = function(){
 			invoiceContainer.hide();
@@ -49,27 +50,31 @@ define([
 			},
 			command:function(){
 				switch(searchBox.val()){
-				case 'add produc':
+				case 'add product':
 					$('#addProduct').modal('show')
 					.on('shown.bs.modal', function () {
 						$('#inputName').focus();
 					});
 					break;
-				case 'dieing produc':
+				case 'dieing product':
 					disableSeachBox();
 					window.location = '#dieingStock';
 					break;
-				case 'repor':
+				case 'report':
 					disableSeachBox();
 					window.location = '#reports';
 					break;
-				default:
-					console.log(searchBox.val());
 				}
 			},
+
 			render: function(){
 				var _this = this;
 				this.$el.html(this.template);
+				$('.loaderPic').show();
+				$("#searchboxInfo").popover({
+					html:true,
+					content: "This is not just a search box. This Search box can read command.Try out the following commands <br> 1.add products <br> 2.reports <br>3.dieing products"
+				});
 				invoiceContainer = $('.invoiceItemsContainer');
 				invoiceContainer.hide();
 				if(navigator.onLine){
@@ -142,11 +147,11 @@ define([
 				if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = dd+'/'+mm+'/'+yyyy;
 				$('#date').text(today);
 				window.print();
-				// this.render();
 			},
 			removeItems: function(){
-				this.render();
-			}
+				location.reload();
+			},
+			
 		});
 return SearchView;
 });
