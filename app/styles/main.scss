@@ -232,7 +232,9 @@ input[disabled]#SerachProduct + #searchboxInfo {
 		color: #ddd;
 	}
 }
-
+#myChart{
+	margin-top:50px;
+}
 @media print{
 	.glyphicon-trash{
 		display: none

@@ -28,6 +28,7 @@ require.config({
         backbone    : '../bower_components/backbone/backbone',
         underscore  : '../bower_components/underscore/underscore',
         typeahead   : '../bower_components/typeahead.js/dist/typeahead',
+        chartjs     : '../bower_components/nnnick-chartjs/Chart',
         bootstrap   : 'vendor/bootstrap'
     }
 });

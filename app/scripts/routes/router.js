@@ -31,10 +31,12 @@ define([
         report: function(){
             navClass('nav-report');
             reportView.render();
+            $('.invoiceItemsContainer').hide();
         },
         dieingStock:function(){
             navClass('nav-products');
             dieingStock.render();
+            $('.invoiceItemsContainer').hide();
         },
 		initialize: function(){
 			new MainView();
