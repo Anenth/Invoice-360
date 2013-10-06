@@ -219,6 +219,32 @@ function getReport(req, res, next){
 		return next();
 	});
 }
+function getChartData(req, res, next){
+	Invoice.find(null, 'amount date', function(err, data){
+		if (err){
+			res.send({'message':'Some error in fetching invoices from mongodb'});
+		}else{
+			var today = getDate(new Date()),
+			invoiceDate = null, jsonObj=[], sales =[];
+			for(var i in data){
+				invoiceDate = getDate(data[i].date);
+				if(invoiceDate.year === today.year && invoiceDate.month === today.month){
+					invoiceDate.day = parseInt(invoiceDate.day,10);
+					if(sales[invoiceDate.day]){
+						sales[invoiceDate.day]+= data[i].amount;
+					}else{
+						sales[invoiceDate.day] = data[i].amount;
+					}
+				}
+			}
+			for(var j in sales){
+				jsonObj.push({date: j, amount:sales[j]});
+			}
+			res.send(jsonObj);
+		}
+		return next();
+	});
+}
 // ### RESTIFY SERVER
 var restify = require('restify'),
 server = restify.createServer({
@@ -239,6 +265,7 @@ server.get('/dieStock',		getDieProducts );
 
 server.post('/invoice', addNewInvoice);
 server.get('/invoice',  getInvoices);
+server.get('/chartdata',  getChartData);
 
 server.get('/report',  getReport);
 

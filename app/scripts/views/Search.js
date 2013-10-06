@@ -20,13 +20,12 @@ define([
 		var today,dd,mm,yyyy;
 		var searchBox, invoiceContainer;
 		var initTypeahead = function(data){
-			searchBox = $('#SerachProduct');
 			searchBox.typeahead({
 				name    : 'products',
 				valueKey: 'name',
 				local   : data,
 				template: JST['app/scripts/templates/typeahead.ejs']
-			}).focus();
+			}).focus().attr('placeholder','Search by Product Name');
 			$('.loaderPic').hide();
 		};
 		var disableSeachBox = function(){
@@ -70,6 +69,8 @@ define([
 			render: function(){
 				var _this = this;
 				this.$el.html(this.template);
+				searchBox = $('#SerachProduct');
+				searchBox.attr('placeholder','Please wait');
 				$('.loaderPic').show();
 				$("#searchboxInfo").popover({
 					html:true,
