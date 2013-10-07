@@ -36,51 +36,41 @@ define([
 			collection: new ChartData(),
 			render:function(){
 				var _this = this;
-				this.model.fetch({
-					success:function(data){
-						_this.$el.append(_this.template(data.toJSON()));
-						_this.showChart();
-					},
-					error:function(){
-						console.log('Some error where fetching the reports!');
-					}
-				});
+				if(navigator.onLine){
+					this.model.fetch({
+						success:function(data){
+							_this.$el.append(_this.template(data.toJSON()));
+							_this.showChart();
+						},
+						error:function(){
+							console.log('Some error where fetching the reports!');
+						}
+					});
+				}else{
+					_this.$el.append(_this.template(this.model.fetch()));
+					_this.showChart();
+				}
 			},
 			showChart:function(){
-				this.collection.fetch({
-					success:function(data){
-						var chartData, ctx, chart;
-						chartData = compileChartData(data.toJSON());
-						ctx       = $('#myChart').get(0).getContext('2d');
-						var tooltipDefaults = {
-						    background: 'rgba(0,0,0,0.6)',
-						    fontFamily : "'Arial'",
-						    fontStyle : "normal",
-						    fontColor: 'white',
-						    fontSize: '12px',
-						    padding: {
-						        top: 10,
-						        right: 10,
-						        bottom: 10,
-						        left: 10
-						    },
-						    offset: {
-						        left: 0,
-						        top: 0
-						    },
-						    border: {
-						        width: 0,
-						        color: '#000'
-						    }
-						};
-						chart     = new Chart(ctx).Line(chartData);
-					},
-					error:function(){
-						console.log('Some error where fetching the ChartData!');
-					}
-				});
+				var chartData, ctx, chart;
+				ctx = $('#myChart').get(0).getContext('2d');
+
+				if(!navigator.onLine){
+					this.collection.fetch({
+						success:function(data){
+							chartData = compileChartData(data.toJSON());
+							chart     = new Chart(ctx).Line(chartData);
+						},
+						error:function(){
+							console.log('Some error where fetching the ChartData!');
+						}
+					});
+				}else{
+					chartData = compileChartData(this.collection.fetch());
+					chart     = new Chart(ctx).Line(chartData);
+				}
 			}
 		});
 
-		return ReportView;
-	});
+return ReportView;
+});

@@ -14,6 +14,13 @@ define([
         $('.active').removeClass('active');
         $('#'+id).addClass('active');
     };
+    var disableSeachBox = function(){
+        var searchBox = $('#SerachProduct');
+        var invoiceContainer = $('.invoiceItemsContainer');
+        invoiceContainer.hide();
+        searchBox.typeahead('destroy');
+        searchBox.attr('disabled',true);
+    };
     var searchView = new SearchView(),
     reportView     = new ReportView(),
     dieingStock    = new DieingStock();
@@ -31,12 +38,12 @@ define([
         report: function(){
             navClass('nav-report');
             reportView.render();
-            $('.invoiceItemsContainer').hide();
+            disableSeachBox();
         },
         dieingStock:function(){
             navClass('nav-products');
             dieingStock.render();
-            $('.invoiceItemsContainer').hide();
+            disableSeachBox();
         },
 		initialize: function(){
 			new MainView();

@@ -17,6 +17,17 @@ define([
 			url : function(){
 				return config.url + '/report';
 			},
+			fetch:function(options){
+				if(navigator.onLine){
+					return Backbone.Model.prototype.fetch.apply(this, arguments) ;
+				}else{
+					return (JSON.parse(localStorage.getItem('MainReport')));
+				}
+			},
+			parse: function(response){
+				localStorage.setItem('MainReport', JSON.stringify(response));
+				return response;
+			}
 		});
 
 		return MainreportModel;

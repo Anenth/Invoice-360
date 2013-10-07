@@ -1,16 +1,15 @@
 CACHE MANIFEST
-# 2013-10-07:v2
+# 2013-10-07:v1
 
 # Files to cache
 CACHE:
 index.html
 
 # CSS
-styles020b175e.main.css
+styles/13bd1b2a.main.css
 
 # JS
-scripts/vendor/f7f27360.modernizr.js
-scripts/15d0197f.main.js
+scripts/0bf5bd70.main.js
 bower_components/requirejs/require.js
 
 # Images
