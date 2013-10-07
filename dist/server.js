@@ -245,6 +245,36 @@ function getChartData(req, res, next){
 		return next();
 	});
 }
+function syncTheData(req, res, next){
+	var products = JSON.parse(req.params.products);
+	var invoice = JSON.parse(req.params.invoice);
+	for(var i in products){
+		Product.update( {'productCode' : products[i].productCode },
+			{	name : products[i].name,
+				qty : products[i].qty,
+				price : products[i].price },
+				function(err){
+					if(err){
+						res.send({'message':'Some error while updating product in MongoDB from Sync'});
+					}
+				});
+	}
+	for(var j in invoice){
+		var newInvoice = new Invoice();
+		newInvoice.invoiceNumber = invoice[j].invoiceNumber;
+		newInvoice.amount = invoice[j].amount;
+		newInvoice.items = invoice[j].items;
+		newInvoice.qty = invoice[j].qty;
+		newInvoice.date = new Date();
+		newInvoice.save(function(err){
+			if(err){
+				res.send({'message':'Some error while saving invoice to mongoDB from SYnc'});
+			}
+		});
+	}
+	res.send({'message':'good'});
+	return next();
+}
 // ### RESTIFY SERVER
 var restify = require('restify'),
 server = restify.createServer({
@@ -268,6 +298,8 @@ server.get('/invoice',  getInvoices);
 server.get('/chartdata',  getChartData);
 
 server.get('/report',  getReport);
+
+server.post('/offline', syncTheData);
 
 server.listen(restPort, function() {
 	console.log(' Restigy server running at => Port : ' + restPort );

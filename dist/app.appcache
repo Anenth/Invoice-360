@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2013-10-07:v4
+# 2013-10-07:v5
 
 # Files to cache
 CACHE:
@@ -10,7 +10,7 @@ styles/020b175e.main.css
 
 # JS
 scripts/vendor/f7f27360.modernizr.js
-scripts/c94eeac2.main.js
+scripts/7fa93bd8.main.js
 bower_components/requirejs/require.js
 
 # Images

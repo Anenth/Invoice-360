@@ -12,7 +12,7 @@ define([
 	'views/InvoiceItem',
 	'models/Invoice',
 	'typeahead',
-	'views/DieingStock'
+	'views/DieingStock',
 ], function ( $, _, Backbone, JST, Product, Products, InvoiceItem, InvoiceItems, InvoiceItemsView, Invoice, DieingStock) {
 		'use strict';
 		var invoiceItems = new InvoiceItems();
@@ -45,7 +45,7 @@ define([
 				'click .btn-cancel'		 :'removeItems'
 			},
 			initialize: function(){
-
+				
 			},
 			command:function(){
 				switch(searchBox.val()){
@@ -113,40 +113,58 @@ define([
 			print: function(){
 				invoiceItems.each(function(model){
 					var product = new Product({ id : model.get('itemCode') });
-					product.fetch({
-						success : function(){
-							product.save(
-							{
-								qty: (product.get('qty')-model.get('qty'))
-							},{
-								success:function(){
-								},
-								error:function(){
-									console.log('Some problem in updating Product to DB');
-								}
-							});
-						}
-					});
-				});
-				var invoice = new Invoice();
-				invoice.save({
-					amount: $('#grandTotal').text(),
-					qty: $('#qtyTotal').text(),
-					items: invoiceItems,
-				},{
-					success: function(model){
-						$('#invoiceNo').text(model.get('invoiceNumber'));
-					},
-					error:function(){
-						console.log('Some problem in saving Product to DB');
+					if(navigator.onLine){
+						product.fetch({
+							success : function(){
+								product.save(
+								{
+									qty: (product.get('qty')-model.get('qty'))
+								},{
+									success:function(){
+									},
+									error:function(){
+										console.log('Some problem in updating Product to DB');
+									}
+								});
+							}
+						});
+					}else{
+						var localProduct = product.fetch();
+						product.save({
+							qty: (localProduct[0].qty-model.get('qty'))
+						})
 					}
 				});
+				var invoice = new Invoice();
+				if(navigator.onLine){
+					invoice.save({
+						amount: $('#grandTotal').text(),
+						qty: $('#qtyTotal').text(),
+						items: invoiceItems
+					},{
+						success: function(model){
+							localStorage.setItem('invoiceNumber', model.get('invoiceNumber'));
+							$('#invoiceNo').text(model.get('invoiceNumber'));
+						},
+						error:function(){
+							console.log('Some problem in saving Product to DB');
+						}
+					});
+				}else{
+					var invoiceNumber = invoice.save({
+						amount: $('#grandTotal').text(),
+						qty: $('#qtyTotal').text(),
+						items: invoiceItems
+					});
+					$('#invoiceNo').text(invoiceNumber);
+				}
 				today = new Date();
 				dd = today.getDate();
 				mm = today.getMonth()+1;
 				yyyy = today.getFullYear();
 				if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = dd+'/'+mm+'/'+yyyy;
 				$('#date').text(today);
+				$('.btn-cancel').text("New Invoice").removeClass('btn-warning ').addClass('btn-success');
 				window.print();
 			},
 			removeItems: function(){
