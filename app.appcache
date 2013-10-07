@@ -1,12 +1,12 @@
 CACHE MANIFEST
-# 2013-10-07:v2
+# 2013-10-07:v3
 
 # Files to cache
 CACHE:
 index.html
 
 # CSS
-styles020b175e.main.css
+styles/020b175e.main.css
 
 # JS
 scripts/vendor/f7f27360.modernizr.js
