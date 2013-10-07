@@ -55,7 +55,7 @@ define([
 				var chartData, ctx, chart;
 				ctx = $('#myChart').get(0).getContext('2d');
 
-				if(!navigator.onLine){
+				if(navigator.onLine){
 					this.collection.fetch({
 						success:function(data){
 							chartData = compileChartData(data.toJSON());

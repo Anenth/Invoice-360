@@ -11,9 +11,8 @@ define([
     var DieingstockCollection = Backbone.Collection.extend({
         model: DieingStock,
         url : function(){
-        	return config.url + '/dieStock';
-        },
-
+            return config.url + '/dieStock';
+        }
     });
 
     return DieingstockCollection;

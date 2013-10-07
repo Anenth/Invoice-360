@@ -12,7 +12,7 @@ define([
 				return config.url + '/chartdata';
 			},
 			fetch:function(options){
-				if(!navigator.onLine){
+				if(navigator.onLine){
 					return Backbone.Collection.prototype.fetch.apply(this, arguments) ;
 				}else{
 					return (JSON.parse(localStorage.getItem('ChartData')));
